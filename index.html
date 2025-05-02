@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Predicción de Enfermedades</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, #007bff, #00c6ff);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        .card-header h3 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .card-header h3 span {
+            font-size: 1.25rem;
+            color: #f0f8ff;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+
+        .card-body {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            border-radius: 5px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .result-card-footer {
+            background-color: #f8f9fa;
+            border-top: 2px solid #007bff;
+            padding: 1rem;
+        }
+
+        .result-card-footer h5 {
+            font-size: 1.25rem;
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .list-unstyled li {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .list-unstyled {
+            padding-left: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header text-center">
+                        <h3 class="mb-0">
+                            🩺 Predicción de Enfermedades - <span>SÍNTOMAS DEL PACIENTE</span>
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% for idx in [1, 2, 3] %}
+                            <div class="mb-3">
+                                <label for="sintoma{{idx}}" class="form-label fw-bold">Síntoma {{idx}}:</label>
+                                <select class="form-select" name="sintoma{{idx}}" required>
+                                    {% for i in range(1, 21) %}
+                                        <option value="{{ i }}"
+                                            {% if i == (sintoma1 if idx==1 else sintoma2 if idx==2 else sintoma3) %}selected{% endif %}>
+                                            [{{ i }}] {{ [
+                                                "Congestión leve", "Congestión moderada", "Congestión severa",
+                                                "Fatiga ligera", "Fatiga moderada", "Fatiga severa",
+                                                "Dolor leve de cabeza", "Dolor moderado de cabeza", "Dolor intenso de cabeza",
+                                                "Fiebre baja", "Fiebre moderada", "Fiebre alta",
+                                                "Tos leve", "Tos moderada", "Tos intensa",
+                                                "Dificultad respiratoria leve", "Dificultad respiratoria moderada", "Dificultad respiratoria severa",
+                                                "Náuseas leves", "Náuseas severas"
+                                            ][i - 1] }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            {% endfor %}
+                            <button type="submit" class="btn btn-primary w-100 fw-bold">🔍 Predecir</button>
+                        </form>
+                    </div>
+                    {% if resultado %}
+                    <div class="result-card-footer text-center">
+                        <h5 class="text-success fw-bold">🧾 Resultado: {{ resultado }}</h5>
+                        <hr>
+                        <h6 class="mt-3">📋 Síntomas seleccionados:</h6>
+                        <ul class="list-unstyled">
+                            {% for codigo, descripcion in sintomas %}
+                            <li>• [{{ codigo }}] {{ descripcion }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
