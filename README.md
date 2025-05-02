@@ -75,15 +75,16 @@ CMD ["python", "app.py"]
 
 Para este caso, ya tenemos adjunto el archivo Dockerfile con la siguiente información:
 
+```
 FROM python:3.10-slim
 WORKDIR /app
 COPY . .
 RUN pip install flask
 EXPOSE 5000
 CMD ["python", "app.py"]
+```
 
-
-2. En nuestro ordenador, debemos crear una carpeta con el nombre: mlops_enfermedades ,la cual debe contener los siguientes archivos:
+### 2.2. En nuestro ordenador, debemos crear una carpeta con el nombre: mlops_enfermedades ,la cual debe contener los siguientes archivos:
 
 * Dockerfile
 * app.py
@@ -91,13 +92,13 @@ CMD ["python", "app.py"]
 * Dentro de la carpeta mlops_enfermedades creamos una carpeta con el nombre templates y dentro de esta carpeta agregamos el archivo 
   index.html.
 
-  Resumiendo: Dentro de la carpeta mlops_enfermedades debemos encontrar:
-  * Dockerfile
-  * app.py
-  * predictor.py
-  * templates
+  Teniendo en cuenta lo anterior, nos aseguramos que la carpeta mlops_enfermedades quede con los siguientes objetos:
+* Dockerfile
+* app.py
+* predictor.py
+* templates
   
-### 2.2. Construir la Imagen Docker
+### 2.3. Construir la Imagen Docker
 
 1. Navega al directorio donde tienes el `Dockerfile` por CMD y ejecuta el siguiente comando en la terminal para construir la imagen:
 
