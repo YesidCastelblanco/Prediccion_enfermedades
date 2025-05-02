@@ -46,9 +46,7 @@ sudo apt-get install docker-ce
 ```bash
 sudo docker --version
 ```
-
----
-
+ 
 ## 2. Crear y Construir una Imagen Docker
 
 ### 2.1. Prepara el Dockerfile
@@ -75,35 +73,39 @@ EXPOSE 5000
 CMD ["python", "app.py"]
 ```
 
-2. Asegúrate de tener un archivo `requirements.txt` con todas las dependencias de tu proyecto, como por ejemplo:
+Para este caso, ya tenemos adjunto el archivo Dockerfile con la siguiente información:
 
-```txt
-Flask==2.0.1
-```
+FROM python:3.10-slim
+WORKDIR /app
+COPY . .
+RUN pip install flask
+EXPOSE 5000
+CMD ["python", "app.py"]
 
-3. Si es necesario, también puedes crear el archivo `app.py` con el código de tu aplicación web (en este caso, usando Flask):
 
-```python
-from flask import Flask
-app = Flask(__name__)
+2. En nuestro ordenador, debemos crear una carpeta con el nombre: mlops_enfermedades ,la cual debe contener los siguientes archivos:
 
-@app.route('/')
-def hello():
-    return "¡Hola desde Docker!"
+* Dockerfile
+* app.py
+* predictor.py
+* Dentro de la carpeta mlops_enfermedades creamos una carpeta con el nombre templates y dentro de esta carpeta agregamos el archivo 
+  index.html.
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-```
-
+  Resumiendo: Dentro de la carpeta mlops_enfermedades debemos encontrar:
+  * Dockerfile
+  * app.py
+  * predictor.py
+  * templates
+  
 ### 2.2. Construir la Imagen Docker
 
-1. Navega al directorio donde tienes el `Dockerfile` y ejecuta el siguiente comando en la terminal para construir la imagen:
+1. Navega al directorio donde tienes el `Dockerfile` por CMD y ejecuta el siguiente comando en la terminal para construir la imagen:
 
 ```bash
-docker build -t mi-imagen .
+docker build -t mlops_enfermedades .
 ```
 
-Este comando creará una imagen Docker llamada `mi-imagen` usando el Dockerfile en el directorio actual (`.`).
+Este comando creará una imagen Docker llamada mlops_enfermedades . usando el Dockerfile en el directorio actual (`.`).
 
 ---
 
@@ -114,13 +116,13 @@ Este comando creará una imagen Docker llamada `mi-imagen` usando el Dockerfile 
 1. Una vez que la imagen se haya creado correctamente, puedes ejecutar un contenedor basado en esa imagen usando el siguiente comando:
 
 ```bash
-docker run -d -p 5000:5000 mi-imagen
+docker run -d -p 5000:5000 mlops_enfermedades
 ```
 
 Aquí:
 - `-d` ejecuta el contenedor en segundo plano.
 - `-p 5000:5000` mapea el puerto 5000 del contenedor al puerto 5000 de tu máquina local (si usas otro puerto, ajústalo).
-- `mi-imagen` es el nombre de la imagen que creaste.
+- `mlops_enfermedades` es el nombre de la imagen que creaste.
 
 ### 3.2. Verifica que el Contenedor se Esté Ejecutando
 
@@ -142,7 +144,7 @@ Este comando te mostrará los contenedores en ejecución, junto con los puertos 
 http://localhost:5000
 ```
 
-Deberías ver la página de tu aplicación web. Si todo está bien configurado, deberías ver el mensaje `"¡Hola desde Docker!"`.
+Deberías ver la página de tu aplicación web. Si todo está bien configurado, deberías ver la página web con los 3 campos de sintomas y listo para predecir.
 
 ---
 
@@ -177,7 +179,7 @@ docker rm <ID del contenedor>
 Para eliminar la imagen que creaste:
 
 ```bash
-docker rmi mi-imagen
+docker rmi mlops_enfermedades
 ```
 
 ---
